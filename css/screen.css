@@ -573,7 +573,7 @@ input::placeholder {
   margin: 0em;
 }
 .c-options-button:before {
-  background: transparent url(SVG/triangle.e8097649.svg) 0 0 no-repeat;
+  background: transparent url(../SVG/triangle.e8097649.svg) 0 0 no-repeat;
   background-size: 12px;
   content: '';
   display: inline-block;
@@ -942,7 +942,7 @@ input:checked + .c-switch-slider:before {
     margin: 0em;
   }
   .c-chart--button--right:before {
-    background: transparent url(SVG/triangle.e8097649.svg) 0 0 no-repeat;
+    background: transparent url(../SVG/triangle.e8097649.svg) 0 0 no-repeat;
     background-size: 50px;
     content: '';
     display: inline-block;
@@ -974,7 +974,7 @@ input:checked + .c-switch-slider:before {
     margin: 0em;
   }
   .c-chart--button--left:before {
-    background: transparent url(SVG/triangle.e8097649.svg) 0 0 no-repeat;
+    background: transparent url(../SVG/triangle.e8097649.svg) 0 0 no-repeat;
     background-size: 50px;
     content: '';
     display: inline-block;
