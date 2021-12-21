@@ -2,11 +2,14 @@
 //#region ***  DOM references                           ***********
 let htmlTest, htmlTestMastery;
 
+//APi const
 const backend_IP = 'https://euw1.api.riotgames.com';
 const riotKey = '';
 
+//Id of summ
 let currentID = '';
 
+//Data for back-up/storage
 let ChampMasteryID = [202, 555, 875, 110, 67, 22, 157, 222, 41, 777, 84, 99, 75, 114, 141, 55, 143, 236, 360, 203, 21, 412, 120, 11, 131, 74, 92, 5, 238, 10, 91, 145, 39, 498, 64, 56, 24, 126, 45, 18, 81, 429, 517, 98, 119, 51, 61, 35, 122, 235, 234, 58, 25, 104, 107, 887, 89, 121, 245, 4, 112, 23, 246, 432, 166, 43, 134, 117, 90, 142, 17, 267, 29, 78, 133, 19, 420, 28, 82, 15, 254, 9, 80, 103, 7, 69, 8, 164, 86, 268, 101, 53, 161, 37, 63, 16, 1, 266, 33, 54, 497, 76, 13, 85, 523, 102, 83, 38, 113, 240, 26, 50, 44, 20, 223, 518, 105, 48, 201, 96, 36, 30, 2, 59, 876, 421, 115, 111, 163, 350, 136, 68, 31, 516, 77, 62, 72, 34, 14, 40, 12, 526, 3, 147, 32, 79, 127, 60, 6, 150, 154, 711, 27, 106, 57, 427, 42];
 let ChampMasteryPoints = [375717, 291893, 143121, 99742, 77126, 76294, 73320, 68067, 67960, 66938, 63678, 63454, 61430, 60441, 55331, 51096, 50679, 50641, 49923, 44299, 42372, 41462, 38569, 38305, 38128, 37593, 33410, 32555, 32284, 30424, 29064, 28058, 27410, 26342, 25935, 25775, 25754, 25683, 25605, 25489, 25293, 25108, 23954, 23760, 23047, 21228, 20693, 19747, 18711, 17805, 17568, 16840, 16752, 16698, 16655, 15978, 15915, 15784, 15782, 14129, 13446, 13375, 12961, 12747, 12723, 12486, 12189, 12070, 12068, 11826, 11363, 11309, 11244, 11230, 10890, 10599, 10397, 10342, 10259, 10177, 10074, 9822, 9714, 9578, 9573, 9559, 9252, 8671, 8530, 8501, 8435, 8349, 8148, 7986, 7967, 7656, 7214, 7101, 6993, 6967, 6879, 6709, 6684, 6510, 6254, 5881, 5361, 5307, 5275, 5269, 5085, 5030, 4942, 4910, 4898, 4744, 4611, 4535, 4499, 4474, 4470, 4312, 4250, 4097, 3954, 3900, 3894, 3698, 3601, 3512, 3419, 3156, 3112, 3058, 2785, 2737, 2517, 2357, 2282, 2243, 2184, 2017, 1948, 1750, 1727, 1627, 1541, 1455, 1439, 1270, 1231, 473, 448, 400, 322, 286, 152];
 let ChampMasteryLevel = [7, 7, 7, 6, 6, 7, 5, 5, 6, 6, 5, 6, 7, 6, 6, 5, 6, 5, 5, 6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
@@ -15,17 +18,62 @@ let ChampMasteryChest = [true, true, true, false, true, true, true, false, false
 let MasteryChamps = [];
 let MasteryChampsTypes = [];
 let RecomendedChamps = [];
-
-let yValues = [];
+//charts
+let ChartChest;
+//data for ChartChest
+let labelsChest = ['Available', 'Obtained'];
+let ChestColors = ['lightblue', 'red'];
+let totalChest = 0;
+let available = 0;
+let obtained = 0;
+let dataChest = [available, obtained];
+//
+let myChart;
+//data for myChart
 let xValues = ['Support', 'Fighter', 'Mage', 'Marksman', 'Assassin', 'Tank'];
 let barColors = ['#D7DAE2', 'sienna', 'skyblue', 'turquoise', 'crimson', 'gold'];
-
-let ChartChest;
-let myChart;
+let totalPoints = 0;
+let supp = 0;
+let fight = 0;
+let mage = 0;
+let adc = 0;
+let assassin = 0;
+let tank = 0;
+let yValues = [supp, fight, mage, adc, assassin, tank];
+//
 let ChartLevel;
+//data for ChartLevel
+let labelsLevel = ['M7', 'M6', 'M5', 'M4', 'ML'];
+let LevelColors = ['turquoise', 'purple', 'crimson', 'gold', 'sienna'];
+let totalLevels = 0;
+let locked = 0;
+let four = 0;
+let five = 0;
+let six = 0;
+let seven = 0;
+let dataLevel = [seven, six, five, four, locked];
+//
+
+let slideIndex = 1;
 //#endregion
 
 //#region ***  Callback-Visualisation - show___         ***********
+const showSlide = function (i) {
+  let n;
+  let x = document.getElementsByClassName('c-chart-img');
+  let b = document.getElementsByClassName('c-chart-bar-progress');
+  if (i > x.length) {
+    slideIndex = 1;
+  }
+  if (i < 1) slideIndex = x.length;
+  for (n = 0; n < x.length; n++) {
+    x[n].style.display = 'none';
+    b[n].style.display = 'none';
+  }
+  x[slideIndex - 1].style.display = 'block';
+  b[slideIndex - 1].style.display = 'block';
+};
+
 const showSummName = function (jsonObject) {
   currentID = jsonObject.id;
   ChampMasteryID.splice(0, ChampMasteryID.length);
@@ -48,22 +96,48 @@ const showMastery = function () {
     s = s + 2;
   }
   htmlTestMastery.innerHTML = htmlString;
-
-  showCharts();
+  updateCharts();
 };
 
 const showCharts = function () {
-  let totalPoints = 0;
+  myChart = new Chart('myChart', {
+    type: 'doughnut',
+    data: { labels: xValues, datasets: [{ backgroundColor: barColors, data: yValues }] },
+    options: { plugins: { title: { display: true, text: 'Division of mastery points by role' } } },
+  });
+
+  ChartChest = new Chart('ChartChest', {
+    type: 'doughnut',
+    data: { labels: labelsChest, datasets: [{ backgroundColor: ChestColors, data: dataChest }] },
+    options: { plugins: { title: { display: true, text: 'Division availablity of chests' } } },
+  });
+
+  ChartLevel = new Chart('ChartLevel', {
+    type: 'doughnut',
+    data: { labels: labelsLevel, datasets: [{ backgroundColor: LevelColors, data: dataLevel }] },
+    options: { plugins: { title: { display: true, text: 'Division of mastery levels' } } },
+  });
+};
+const updateCharts = function () {
+  updateChartChests();
+  updateChartLevel();
+  updateChartPoints();
+};
+
+const updateChartPoints = function () {
+  let dataset = myChart.data.datasets;
+  dataset[0].data.pop();
+  myChart.update();
+  totalPoints = 0;
+  supp = 0;
+  fight = 0;
+  mage = 0;
+  adc = 0;
+  assassin = 0;
+  tank = 0;
   for (let i = 0; i < ChampMasteryPoints.length; i++) {
     totalPoints += ChampMasteryPoints[i];
   }
-  let supp = 0;
-  let fight = 0;
-  let mage = 0;
-  let adc = 0;
-  let assassin = 0;
-  let tank = 0;
-
   for (let i = 0; i < ChampMasteryPoints.length; i++) {
     let percent = ChampMasteryPoints[i] / totalPoints;
     switch (MasteryChampsTypes[i]) {
@@ -90,17 +164,17 @@ const showCharts = function () {
     }
   }
   yValues = [supp, fight, mage, adc, assassin, tank];
-  myChart = new Chart('myChart', {
-    type: 'doughnut',
-    data: { labels: xValues, datasets: [{ backgroundColor: barColors, data: yValues }] },
-    options: { title: { display: true, text: 'Division of mastery points by role' } },
-  });
+  dataset[0].data = yValues;
+  myChart.update();
+};
 
-  let labelsChest = ['Available', 'Obtained'];
-  let ChestColors = ['lightblue', 'red'];
-  let available = 0;
-  let obtained = 0;
-  let totalChest = ChampMasteryChest.length;
+const updateChartChests = function () {
+  let dataset = ChartChest.data.datasets;
+  dataset[0].data.pop();
+  ChartChest.update();
+  totalChest = ChampMasteryChest.length;
+  available = 0;
+  obtained = 0;
   for (let i = 0; i < totalChest; i++) {
     let status = ChampMasteryChest[i];
     if (status) {
@@ -109,31 +183,31 @@ const showCharts = function () {
       available++;
     }
   }
-  let dataChest = [available, obtained];
-  ChartChest = new Chart('ChartChest', {
-    type: 'doughnut',
-    data: { labels: labelsChest, datasets: [{ backgroundColor: ChestColors, data: dataChest }] },
-    options: { title: { display: true, text: 'Division availablity of chests' } },
-  });
+  dataChest = [available, obtained];
+  dataset[0].data = dataChest;
+  ChartChest.update();
+};
 
-  let one = 0;
-  let two = 0;
-  let three = 0;
-  let four = 0;
-  let five = 0;
-  let six = 0;
-  let seven = 0;
-  let totalLevels = ChampMasteryLevel.length;
+const updateChartLevel = function () {
+  let dataset = ChartLevel.data.datasets;
+  dataset[0].data.pop();
+  ChartLevel.update();
+  totalLevels = ChampMasteryLevel.length;
+  locked = 0;
+  four = 0;
+  five = 0;
+  six = 0;
+  seven = 0;
   for (let i = 0; i < totalLevels; i++) {
     switch (ChampMasteryLevel[i]) {
       case 1:
-        one++;
+        locked++;
         break;
       case 2:
-        two++;
+        locked++;
         break;
       case 3:
-        three++;
+        locked++;
         break;
       case 4:
         four++;
@@ -151,16 +225,10 @@ const showCharts = function () {
         break;
     }
   }
-  let labelsLevel = ['seven', 'six', 'five', 'four', 'three', 'two', 'one'];
-  let LevelColors = ['turquoise', 'purple', 'crimson', 'gold', 'sienna', 'skyblue', 'yellow'];
-  let dataLevel = [seven, six, five, four, three, two, one];
-  ChartLevel = new Chart('ChartLevel', {
-    type: 'doughnut',
-    data: { labels: labelsLevel, datasets: [{ backgroundColor: LevelColors, data: dataLevel }] },
-    options: { title: { display: true, text: 'Division of mastery levels' } },
-  });
+  dataLevel = [seven, six, five, four, locked];
+  dataset[0].data = dataLevel;
+  ChartLevel.update();
 };
-
 //#endregion
 
 //#region ***  Callback-No Visualisation - callback___  ***********
@@ -187,15 +255,10 @@ const callbackMastery = function (jsonObject) {
     ChampMasteryLevel.push(jsonObject[i].championLevel);
     ChampMasteryChest.push(jsonObject[i].chestGranted);
   }
-  console.log('ID: ' + ChampMasteryID);
-  console.log('Points :' + ChampMasteryPoints);
-  console.log('Levels :' + ChampMasteryLevel);
-  console.log('Chests :' + ChampMasteryChest);
   getChampById();
 };
 
 const callbackChamp = function (jsonObject) {
-  console.log(ChampMasteryID);
   for (let index = 0; index < ChampMasteryID.length; index++) {
     for (let champs in jsonObject.data) {
       let champStats = jsonObject.data[champs];
@@ -204,12 +267,10 @@ const callbackChamp = function (jsonObject) {
       }
     }
   }
-  console.log(MasteryChamps);
   callbackMasterType(jsonObject);
 };
 
 const callbackMasterType = function (jsonObject) {
-  console.log(ChampMasteryID);
   for (let index = 0; index < ChampMasteryID.length; index++) {
     for (let champs in jsonObject.data) {
       let champStats = jsonObject.data[champs];
@@ -218,7 +279,6 @@ const callbackMasterType = function (jsonObject) {
       }
     }
   }
-  console.log(MasteryChampsTypes);
   callbackChampionType(jsonObject);
 };
 
@@ -239,7 +299,6 @@ const callbackChampionType = function (jsonObject) {
       }
     }
   }
-  console.log(RecomendedChamps);
   showMastery();
 };
 //#endregion
@@ -374,6 +433,10 @@ const listenToClickSettings = function () {
   });
 };
 
+function plusDivs(n) {
+  showSlide((slideIndex += n));
+}
+
 function listenToClickPlain() {
   let checkbox = document.getElementById('js-plaintext');
   if (checkbox.checked == true) {
@@ -410,6 +473,8 @@ const init = function () {
     listenToClickMenu();
     listenToClickList();
     listenToClickChart();
+    showCharts();
+    showSlide(1);
     getChampById();
   } else {
     listenToClickSumm();
@@ -417,6 +482,8 @@ const init = function () {
     listenToClickMenu();
     listenToClickList();
     listenToClickChart();
+    showCharts();
+    showSlide(1);
     getSummName('VirJhinMojito');
   }
 };

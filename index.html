@@ -12,7 +12,7 @@
     <script src="script/datahandler.js"></script>
     <script src="script/app.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.js"></script>
     <title>League tracker</title>
   </head>
   <body>
@@ -125,9 +125,24 @@
                     
                   </div>
                   <div class="js-chart c-chart c-chart-hidden">
-                    <div class="c-chart--item"><canvas id="myChart" style=" color:white; width: 100%;" ></canvas></div>
-                    <div class="c-chart--item"><canvas id="ChartChest" style=" color:white; width: 100%;" ></canvas></div>
-                    <div class="c-chart--item"><canvas id="ChartLevel" style=" color:white; width: 100%;" ></canvas></div>
+                    <div class="c-chart--arrow-left">
+                      <button type="button" class="o-button-reset c-chart--button--left" onclick="plusDivs(-1)">
+                      </button>
+                    </div>
+                    <div class="c-chart--item">
+                      <div class="c-chart-img"><canvas id="myChart"></canvas></div>
+                      <div class="c-chart-img"><canvas id="ChartChest"></canvas></div>
+                      <div class="c-chart-img"><canvas id="ChartLevel" ></canvas></div>
+                      <div class="c-chart-bar">
+                        <div class="c-chart-bar-progress" style="width: 35%;"></div>
+                        <div class="c-chart-bar-progress" style="margin-left: 35%; width: 35%;"></div>
+                        <div class="c-chart-bar-progress" style="margin-left: 70%; width: 35%;"></div>
+                      </div>
+                    </div>
+                    <div class="c-chart--arrow-right">
+                      <button type="button" class="o-button-reset c-chart--button--right" onclick="plusDivs(1)">
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
