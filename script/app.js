@@ -53,24 +53,58 @@ let six = 0;
 let seven = 0;
 let dataLevel = [seven, six, five, four, locked];
 //
-
+let cardindex = 1;
+let currentCard = 0;
 let slideIndex = 1;
+let currentSlide = 0;
 //#endregion
 
 //#region ***  Callback-Visualisation - show___         ***********
-const showSlide = function (i) {
+const showCard = function (i) {
   let n;
-  let x = document.getElementsByClassName('c-chart-img');
-  let b = document.getElementsByClassName('c-chart-bar-progress');
+  let x = document.getElementsByClassName('c-card');
+  let b = document.getElementsByClassName('c-card-bar-progress');
   if (i > x.length) {
-    slideIndex = 1;
+    cardindex = 1;
   }
-  if (i < 1) slideIndex = x.length;
+  if (i < 1) cardindex = x.length;
   for (n = 0; n < x.length; n++) {
     x[n].style.display = 'none';
     b[n].style.display = 'none';
   }
-  x[slideIndex - 1].style.display = 'block';
+  x[cardindex - 1].style.display = 'block';
+  b[cardindex - 1].style.display = 'block';
+};
+
+const showSlide = function (i) {
+  let n;
+
+  let x = document.getElementsByClassName('c-chart-img');
+  let s = document.getElementsByClassName('c-chart-middle--item');
+  let b = document.getElementsByClassName('c-chart-bar-progress');
+
+  if (i > x.length) {
+    slideIndex = 1;
+  }
+  if (i < 1) {
+    slideIndex = x.length;
+  }
+  for (n = 0; n < x.length; n++) {
+    b[n].style.display = 'none';
+  }
+  switch (slideIndex - 1) {
+    case 0:
+      s[0].style.left = '0px';
+      break;
+    case 1:
+      s[0].style.left = '-500px';
+      break;
+    case 2:
+      s[0].style.left = '-1000px';
+      break;
+    default:
+      break;
+  }
   b[slideIndex - 1].style.display = 'block';
 };
 
@@ -86,16 +120,25 @@ const showSummName = function (jsonObject) {
 };
 
 const showMastery = function () {
-  let htmlString = ``;
+  let htmlString = `<div class="c-cards--item u-backcolor-white">`;
   let s = 0;
   for (let i = 0; i < 6; i++) {
     htmlString += `<div class="c-card c-card__grid">
-    <div class="c-card__grid--item"> Champion: ${MasteryChamps[i]}<br/><img class="js-img c-card--img" src="http://ddragon.leagueoflegends.com/cdn/11.24.1/img/champion/${MasteryChamps[i]}.png"/>  <br/>Level: ${ChampMasteryLevel[i]} <br/> <img class="js-img  c-card--img" src="img/mastery-${ChampMasteryLevel[i]}.png"/><br/> Points: ${ChampMasteryPoints[i]} <br/></div>
+    <div class="c-card__grid--item">Mastery Rank: ${[i + 1]} <br/> Champion: ${MasteryChamps[i]}<br/><img class="js-img c-card--img" src="http://ddragon.leagueoflegends.com/cdn/11.24.1/img/champion/${MasteryChamps[i]}.png"/>  <br/>Level: ${ChampMasteryLevel[i]} <br/> <img class="js-img  c-card--img" src="img/mastery-${ChampMasteryLevel[i]}.png"/><br/> Points: ${ChampMasteryPoints[i]} <br/></div>
     <div class="c-card__grid--item c-mastery--reco">Recommended champs:<br/> ${RecomendedChamps[s]} <br/> ${RecomendedChamps[s + 1]} <br/> </div>
   </div>`;
     s = s + 2;
   }
+  htmlString += `</div><div class="c-card-bar">
+  <div class="c-card-bar-progress" style="width: 17.5%;"></div>
+  <div class="c-card-bar-progress" style="margin-left: 17.5%; width: 17.5%;"></div>
+  <div class="c-card-bar-progress" style="margin-left: 35%; width: 17.5%;"></div>
+  <div class="c-card-bar-progress" style="margin-left: 52.5%; width: 17.5%;"></div>
+  <div class="c-card-bar-progress" style="margin-left: 70%; width: 17.5%;"></div>
+  <div class="c-card-bar-progress" style="margin-left: 87.5%; width: 17.5%;"></div>
+</div>`;
   htmlTestMastery.innerHTML = htmlString;
+  showCard(1);
   updateCharts();
 };
 
@@ -397,11 +440,15 @@ const listenToClickList = function () {
     const btnChart = document.querySelector('.js-chartbtn');
     const btnlist = document.querySelector('.js-listbtn');
     const htmlChart = document.querySelector('.js-chart');
-
+    const htmlMastery = document.querySelector('.js-MasteryContainer');
+    const htmlMasteryTitel = document.querySelector('.js-Mastery-titel');
+    const htmlchartTitel = document.querySelector('.js-chart-titel');
     btnChart.classList.remove('c-option__togglebtn--selected');
     btnlist.classList.add('c-option__togglebtn--selected');
     htmlChart.classList.add('c-chart-hidden');
-    htmlTestMastery.classList.remove('c-mastery-hidden');
+    htmlchartTitel.classList.add('c-chart-hidden');
+    htmlMastery.classList.remove('c-mastery-hidden');
+    htmlMasteryTitel.classList.remove('c-chart-hidden');
   });
 };
 
@@ -410,11 +457,15 @@ const listenToClickChart = function () {
     const btnChart = document.querySelector('.js-chartbtn');
     const btnlist = document.querySelector('.js-listbtn');
     const htmlChart = document.querySelector('.js-chart');
-
+    const htmlMastery = document.querySelector('.js-MasteryContainer');
+    const htmlMasteryTitel = document.querySelector('.js-Mastery-titel');
+    const htmlchartTitel = document.querySelector('.js-chart-titel');
     btnChart.classList.add('c-option__togglebtn--selected');
     btnlist.classList.remove('c-option__togglebtn--selected');
     htmlChart.classList.remove('c-chart-hidden');
-    htmlTestMastery.classList.add('c-mastery-hidden');
+    htmlchartTitel.classList.remove('c-chart-hidden');
+    htmlMastery.classList.add('c-mastery-hidden');
+    htmlMasteryTitel.classList.add('c-chart-hidden');
   });
 };
 
@@ -432,6 +483,10 @@ const listenToClickSettings = function () {
     htmlOptions.classList.toggle('c-options-hide');
   });
 };
+
+function plusCard(n) {
+  showCard((cardindex += n));
+}
 
 function plusDivs(n) {
   showSlide((slideIndex += n));
